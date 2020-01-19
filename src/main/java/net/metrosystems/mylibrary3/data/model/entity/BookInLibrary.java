@@ -1,6 +1,7 @@
 package net.metrosystems.mylibrary3.data.model.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -25,8 +26,8 @@ public class BookInLibrary {
     @JoinColumn(name = "library_id")
     private Library library;
 
-    @Column(name = "price")
-    private int priceInEur;
+    @Column(name = "price", precision = 5, scale = 2)
+    private BigDecimal priceInEur;
 
     @Column(name = "no_pieces")
     private int noPieces;
@@ -72,11 +73,11 @@ public class BookInLibrary {
         this.library = library;
     }
 
-    public int getPriceInEur() {
+    public BigDecimal getPriceInEur() {
         return priceInEur;
     }
 
-    public void setPriceInEur(int priceInEur) {
+    public void setPriceInEur(BigDecimal priceInEur) {
         this.priceInEur = priceInEur;
     }
 
@@ -100,5 +101,16 @@ public class BookInLibrary {
     @Override
     public int hashCode() {
         return Objects.hash(book, library);
+    }
+
+    @Override
+    public String toString() {
+        return "BookInLibrary{" +
+                "id=" + id +
+                //", book=" + book +
+                ", library=" + library +
+                ", priceInEur=" + priceInEur +
+                ", noPieces=" + noPieces +
+                '}';
     }
 }

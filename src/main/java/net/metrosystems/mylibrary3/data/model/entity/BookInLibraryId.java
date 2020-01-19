@@ -44,4 +44,5 @@ public class BookInLibraryId implements Serializable {
     public int hashCode() {
         return Objects.hash(bookId, libraryId);
     }
+
 }

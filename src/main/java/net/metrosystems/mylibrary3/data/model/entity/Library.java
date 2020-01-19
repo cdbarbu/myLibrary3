@@ -86,4 +86,14 @@ public class Library {
     public int hashCode() {
         return Objects.hash(this.name);
     }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }

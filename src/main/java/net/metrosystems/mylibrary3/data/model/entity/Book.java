@@ -1,6 +1,7 @@
 package net.metrosystems.mylibrary3.data.model.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class Book {
     @Id
     @GeneratedValue(generator = "gen_books_seq", strategy = GenerationType.SEQUENCE)
+    //@Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -23,10 +25,13 @@ public class Book {
     @Column(name = "year_of_publication", nullable = false)
     private int yearOfPublication;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<BookInLibrary> librariesOfBookList = new ArrayList<>();
 
-    public Book() {};
+    public Book() {
+    }
+
+    ;
 
     public Book(String title, String authorName, int yearOfPublication) {
         this.title = title;
@@ -79,7 +84,7 @@ public class Book {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        Book  that = (Book) obj;
+        Book that = (Book) obj;
         return Objects.equals(this.title, that.getTitle()) && Objects.equals(this.authorName, that.getAuthorName());
     }
 
@@ -88,7 +93,18 @@ public class Book {
         return Objects.hash(this.title, this.authorName);
     }
 
-    public void addLibrary (Library library, int priceInEur, int noPieces) {
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", yearOfPublication=" + yearOfPublication +
+                ", librariesOfBookList=" + librariesOfBookList +
+                '}';
+    }
+
+    public void addLibrary(Library library, BigDecimal priceInEur, int noPieces) {
         BookInLibrary bil = new BookInLibrary(this, library);
         bil.setPriceInEur(priceInEur);
         bil.setNoPieces(noPieces);
@@ -96,8 +112,8 @@ public class Book {
         library.getBooksOfLibraryList().add(bil);
     }
 
-    public void removeLibrary (Library library) {
-        for (Iterator<BookInLibrary> iterator = librariesOfBookList.iterator(); iterator.hasNext();) {
+    public void removeLibrary(Library library) {
+        for (Iterator<BookInLibrary> iterator = librariesOfBookList.iterator(); iterator.hasNext(); ) {
             BookInLibrary bil = iterator.next();
 
             if (bil.getLibrary().equals(library)) {
@@ -108,4 +124,15 @@ public class Book {
             }
         }
     }
+
+    public void updateBook(Library library, int noPieces, BigDecimal priceInEur) {
+        for (BookInLibrary bil : librariesOfBookList) {
+            if (bil.getLibrary().equals(library)) {
+                bil.setNoPieces(noPieces);
+                bil.setPriceInEur(priceInEur);
+                break;
+            }
+        }
+    }
 }
+

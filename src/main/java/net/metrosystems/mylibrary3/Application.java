@@ -1,5 +1,7 @@
 package net.metrosystems.mylibrary3;
 
+import net.metrosystems.mylibrary3.data.model.dto.BookDto;
+import net.metrosystems.mylibrary3.data.model.dto.LibraryDto;
 import net.metrosystems.mylibrary3.data.model.entity.Book;
 import net.metrosystems.mylibrary3.data.model.entity.Library;
 import net.metrosystems.mylibrary3.service.DataService;
@@ -10,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,26 @@ public class Application implements CommandLineRunner {
     public void run(String...args) throws Exception {
         dataService.clearAll();
         dataService.addBooksToDb(createBooks());
-        dataService.getAllBooks();
+//
+//        List<BookDto> bookDtoList = dataService.getAllBooks();
+//        System.out.println("getAllBooks:");
+//        for (BookDto b : bookDtoList) {
+//            System.out.println(b);
+//        }
+//
+//        List<Book> bookList = dataService.findByAuthorName("Author1");
+//        System.out.println("getAuthor1:");
+//        for (Book b : bookList) {
+//            System.out.println(b);
+//        }
+
+//        BookDto bookToRemove = new BookDto("Author1", "Title1", 0);
+//        LibraryDto libraryToRemove = new LibraryDto("LibraryName1", "Address1", null);
+//        dataService.removeLibraryOfBook(bookToRemove, libraryToRemove);
+
+        BookDto bookUpdated = new BookDto("Author1", "Title1", 0);
+        LibraryDto libraryOfBookUpdated = new LibraryDto("LibraryName1", "Address1", null);
+        dataService.updateBookStockAndPrice(bookUpdated, libraryOfBookUpdated, 30, new BigDecimal(100));
     }
 
     private List<Book> createBooks() {
@@ -43,10 +65,10 @@ public class Application implements CommandLineRunner {
         Library library2 = new Library("LibraryName2", "Address2", "987654");
 
         //BookInLibrary list
-        book1.addLibrary(library1, 11, 105);
-        book1.addLibrary(library2, 12, 200);
-        book2.addLibrary(library1, 20, 25);
-        book3.addLibrary(library2, 30, 15);
+        book1.addLibrary(library1, new BigDecimal(11), 105);
+        book1.addLibrary(library2, new BigDecimal(12), 200);
+        book2.addLibrary(library1, new BigDecimal(20), 25);
+        book3.addLibrary(library2, new BigDecimal(30), 15);
 
         books.add(book1);
         books.add(book2);
