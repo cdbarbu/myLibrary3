@@ -25,13 +25,11 @@ public class Book {
     @Column(name = "year_of_publication", nullable = false)
     private int yearOfPublication;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<BookInLibrary> librariesOfBookList = new ArrayList<>();
 
     public Book() {
     }
-
-    ;
 
     public Book(String title, String authorName, int yearOfPublication) {
         this.title = title;
@@ -134,5 +132,6 @@ public class Book {
             }
         }
     }
+
 }
 

@@ -1,5 +1,14 @@
 package net.metrosystems.mylibrary3.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import net.metrosystems.mylibrary3.data.model.dto.BookDto;
 import net.metrosystems.mylibrary3.data.model.dto.BookInLibraryDto;
 import net.metrosystems.mylibrary3.data.model.dto.LibraryDto;
@@ -8,23 +17,14 @@ import net.metrosystems.mylibrary3.data.model.entity.BookInLibrary;
 import net.metrosystems.mylibrary3.data.model.entity.Library;
 import net.metrosystems.mylibrary3.data.repository.BookRepository;
 import net.metrosystems.mylibrary3.data.repository.LibraryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Service
 public class DataService {
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     @Autowired
-    LibraryRepository libraryRepository;
+    private LibraryRepository libraryRepository;
 
     @Transactional
     public void clearAll() {
@@ -33,7 +33,7 @@ public class DataService {
     }
 
     @Transactional
-    public void addBooksToDb (List<Book> books) {
+    public void addBooksToDb(List<Book> books) {
         bookRepository.saveAll(books);
     }
 
@@ -71,15 +71,19 @@ public class DataService {
             allBooks.add(bookDto);
         }
 
-
         return allBooks;
     }
 
     @Transactional
     public List<Book> findByAuthorName (String authorName) {
         List<Book> booksByAuthor = bookRepository.findByAuthorName(authorName);
-
-       return booksByAuthor;
+//        for (Book b : booksByAuthor) {
+//            List<BookInLibrary> librariesOfBookList = b.getLibrariesOfBookList();
+//            for (BookInLibrary bil : librariesOfBookList) {
+//                System.out.println(bil);
+//            }
+//        }
+        return booksByAuthor;
     }
 
     @Transactional
@@ -96,6 +100,7 @@ public class DataService {
         Library library = libraryRepository.findByNameAndAddress(libraryDto.getName(), libraryDto.getAddress());
         book.updateBook(library, noPieces, priceInDollar.divide(new BigDecimal(0.9), 2, RoundingMode.HALF_UP));
     }
+
 }
 
 
