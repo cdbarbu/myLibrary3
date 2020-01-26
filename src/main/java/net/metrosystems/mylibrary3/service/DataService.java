@@ -77,12 +77,12 @@ public class DataService {
     @Transactional
     public List<Book> findByAuthorName (String authorName) {
         List<Book> booksByAuthor = bookRepository.findByAuthorName(authorName);
-//        for (Book b : booksByAuthor) {
-//            List<BookInLibrary> librariesOfBookList = b.getLibrariesOfBookList();
-//            for (BookInLibrary bil : librariesOfBookList) {
-//                System.out.println(bil);
-//            }
-//        }
+        for (Book b : booksByAuthor) {
+            List<BookInLibrary> librariesOfBookList = b.getLibrariesOfBookList();
+            for (BookInLibrary bil : librariesOfBookList) {
+                System.out.println(bil);
+            }
+        }
         return booksByAuthor;
     }
 
