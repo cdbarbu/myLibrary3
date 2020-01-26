@@ -3,6 +3,7 @@ package net.metrosystems.mylibrary3;
 import net.metrosystems.mylibrary3.data.model.dto.BookDto;
 import net.metrosystems.mylibrary3.data.model.dto.LibraryDto;
 import net.metrosystems.mylibrary3.data.model.entity.Book;
+import net.metrosystems.mylibrary3.data.model.entity.BookInLibrary;
 import net.metrosystems.mylibrary3.data.model.entity.Library;
 import net.metrosystems.mylibrary3.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String...args) throws Exception {
-        dataService.clearAll();
-        dataService.addBooksToDb(createBooks());
+//        dataService.clearAll();
+//        dataService.addBooksToDb(createBooks());
 //
 //        List<BookDto> bookDtoList = dataService.getAllBooks();
 //        System.out.println("getAllBooks:");
@@ -37,19 +38,19 @@ public class Application implements CommandLineRunner {
 //            System.out.println(b);
 //        }
 //
-//        List<Book> bookList = dataService.findByAuthorName("Author1");
-//        System.out.println("getAuthor1:");
-//        for (Book b : bookList) {
-//            System.out.println(b);
-//        }
+        List<Book> bookList = dataService.findByAuthorName("Author1");
+        System.out.println("getAuthor1:");
+        for (Book b : bookList) {
+            System.out.println(b);
+        }
 
 //        BookDto bookToRemove = new BookDto("Author1", "Title1", 0);
 //        LibraryDto libraryToRemove = new LibraryDto("LibraryName1", "Address1", null);
 //        dataService.removeLibraryOfBook(bookToRemove, libraryToRemove);
 
-        BookDto bookUpdated = new BookDto("Author1", "Title1", 0);
-        LibraryDto libraryOfBookUpdated = new LibraryDto("LibraryName1", "Address1", null);
-        dataService.updateBookStockAndPrice(bookUpdated, libraryOfBookUpdated, 30, new BigDecimal(100));
+//        BookDto bookUpdated = new BookDto("Author1", "Title1", 0);
+//        LibraryDto libraryOfBookUpdated = new LibraryDto("LibraryName1", "Address1", null);
+//        dataService.updateBookStockAndPrice(bookUpdated, libraryOfBookUpdated, 30, new BigDecimal(100));
     }
 
     private List<Book> createBooks() {
